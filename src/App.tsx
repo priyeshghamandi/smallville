@@ -1,19 +1,12 @@
-import {
-  DesktopOutlined,
-  FileOutlined,
-  PieChartOutlined,
-  TeamOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
-import './App.css';
+import { Suspense } from "react";
+import Router from "./router";
+
 
 function App() {
   return (
-    <div className="App">
-        <div className='text-gray-800 font-bold text-2xl"'> Tailwind Test</div>
-    </div>
+    <Suspense fallback={"Loading..."}>
+        <Router />
+    </Suspense>
   );
 }
 
