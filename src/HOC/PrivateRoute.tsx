@@ -17,10 +17,9 @@ const PrivateRoute:React.FC<{ allowedUsers: string[]; component: React.FC }> = (
                 <LeftNav />
                 <Layout style={{ padding: '0 24px 24px' }}>
                 <Content
+                    className="mt-2 ml-48 p-6"
                     style={{
-                    padding: 24,
-                    margin: 0,
-                    minHeight: 280,                    
+                        minHeight: 280,                    
                     }}
                 >
                     <C />
