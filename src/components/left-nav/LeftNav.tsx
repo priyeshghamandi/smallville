@@ -31,7 +31,8 @@ const LeftNav:React.FC = ():JSX.Element => {
                 style={{ height: '100%', borderRight: 0 }}
                 items={menuItems}
                 className="font-bold"
-                theme='light'
+                theme='dark'
+                //inlineCollapsed={true}
             />
         </Sider>
     )

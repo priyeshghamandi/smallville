@@ -1,3 +1,4 @@
 export const LOGIN = '/login';
-export const DASHBOARD = '/dashboard';
+export const DASHBOARD = '/';
 export const BRANCHES = '/branches';
+export const REGISTER = '/register';

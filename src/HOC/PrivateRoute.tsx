@@ -1,16 +1,29 @@
-import React, { Fragment } from 'react';
-import type { MenuProps } from 'antd';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import React, { Fragment, useEffect } from 'react';
+import { Layout } from 'antd';
 import Header from '../components/header';
 import LeftNav from '../components/left-nav';
+import { Navigate } from 'react-router-dom';
+import { LOGIN } from '../constants/paths';
+import { useAppSelector } from '../redux/hooks';
+import { RootState } from '../redux/store';
 
-const { Content, Sider } = Layout;
+const { Content } = Layout;
 
 const PrivateRoute:React.FC<{ allowedUsers: string[]; component: React.FC }> = ({
     allowedUsers = [],
     component: C,
 }):JSX.Element => {
-    return (
+    const session = useAppSelector((state: RootState) => state.session);    
+    // const [isSessionValid, setIsSessionValid] = React.useState(false);
+
+    // useEffect(() => {
+    //     if(session.isSessionValid === true) {
+    //         setIsSessionValid(true);
+    //     }
+    // }, [session.isSessionValid]);
+
+    
+    return session.isSessionValid === true ? (
         <Layout>
             <Header />
             <Layout className='h-screen'>
@@ -27,7 +40,9 @@ const PrivateRoute:React.FC<{ allowedUsers: string[]; component: React.FC }> = (
                 </Layout>
             </Layout>
         </Layout>
-    )
+    ) : session.isSessionValid === false ?  (
+            <Navigate to={LOGIN} />
+    ) : null;
 }
 export default PrivateRoute;
 
