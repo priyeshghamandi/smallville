@@ -34,7 +34,7 @@ const Registration:React.FC = ():JSX.Element => {
                                             <div className="text-center text-3xl font-bold font-billabong mb-10">
                                                 {org?.name}                                       
                                             </div>
-                                            {org && <RegistrationForm orgID={org.id}/>}
+                                            {org && <RegistrationForm org={org}/>}
                                             
                                         </div>
                                     </div>

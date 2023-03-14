@@ -1,3 +1,5 @@
+import { StudentCategory } from "../student-category/types";
+
 export interface AuthState {
     id: string;
     avatar: string;
@@ -37,6 +39,8 @@ export interface Org {
     name: string;
     subdomain: string;
     status: string;
+    branches: Branch[];
+    studentCategories: StudentCategory[];
     date: string;
 }
 export interface Branch {

@@ -30,11 +30,11 @@ const LeftNav:React.FC<{ path: string}> = ({path}):JSX.Element => {
                     icon: item.icon,
                     onClick: () => {
                         navigate(item.key);
-                        dispatch(setNavigation({
-                            key: item.key,
-                            path: item.key,
-                            component: item.component,
-                        }))
+                        // dispatch(setNavigation({
+                        //     key: item.key,
+                        //     path: item.key,
+                        //     component: item.component,
+                        // }))
                     }
                 }
             )

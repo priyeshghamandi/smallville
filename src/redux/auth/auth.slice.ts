@@ -1,5 +1,7 @@
 import { createSlice, current, PayloadAction } from '@reduxjs/toolkit';
-import { addStudentToOrg, auth, signin, signout, signup } from '../../services/auth.service';
+import { message } from '../../notifications/toast';
+import { registerStudentToOrg, auth, signin, signout, signup } from '../../services/auth.service';
+import { updateProfile } from '../../services/user.service';
 import { deleteSession, setSession } from '../session/session.slice';
 import { AppDispatch, RootState } from '../store';
 import { AuthState, Branch, LoginCredentials, NewStudent, NewUser, Org, User } from './types';
@@ -91,7 +93,7 @@ export const logoutAction = () => async (dispatch: AppDispatch) => {
 
 
 export const addNewStudentAction = (student: NewStudent) => async (dispatch: AppDispatch) => {
-    const response = await addStudentToOrg(student);
+    const response = await registerStudentToOrg(student);
     localStorage.setItem('token', response?.token || '');
     if (response.ok) {
         auth()
@@ -105,6 +107,21 @@ export const addNewStudentAction = (student: NewStudent) => async (dispatch: App
         dispatch(setSession());
     } else {
         //message.error(response.errors);
+    }
+};
+
+export const update = (profile: Partial<User>) => async (dispatch: AppDispatch) => {
+    try {
+        const data = await updateProfile(profile);
+        if (data.ok) {          
+            dispatch(authSlice.actions.authUser(data.response));
+            message.success('Profile Updated');
+        } else {
+            //dispatch(authSlice.actions.authUser(oldProfile));
+            //message.error(response.errors);
+        }
+    } catch (error) {
+        console.error(error);
     }
 };
 

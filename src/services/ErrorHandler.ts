@@ -1,5 +1,6 @@
 import { message as notification} from '../notifications/toast';
-export function handleErrors(e: any) {
+import { Response } from './Response';
+export function handleErrors(e: any): Response {
 	let response: any = {};
 	try {
 		if (e?.response?.data) {
@@ -14,7 +15,7 @@ export function handleErrors(e: any) {
 			}
 		}
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 	}	
 	return response;
 }

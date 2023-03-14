@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { PROFILE, DASHBOARD } from '../constants/paths';
+import { SETTINGS, DASHBOARD } from '../constants/paths';
 import { AuthData } from '../redux/auth/auth.slice';
 import { sessionData } from '../redux/session/session.slice';
 import {useAppSelector} from '../redux/hooks';
@@ -25,7 +25,7 @@ const LoggedOutRoute: React.FC<{ allowedUsers: string[]; component: React.FC }> 
         
             (loggedInUser?.type === UserTypes.ADMIN || loggedInUser?.type === UserTypes.SUPER_ADMIN) 
             ? <Navigate to={DASHBOARD} /> 
-            : <Navigate to={PROFILE} />         
+            : <Navigate to={SETTINGS} />         
     ) : null;
 };
 

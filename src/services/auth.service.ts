@@ -75,7 +75,7 @@ export async function signout(): Promise<{}> {
     }
 }
 
-export async function addStudentToOrg(newStudent: NewStudent): Promise<AuthResponse> {
+export async function registerStudentToOrg(newStudent: NewStudent): Promise<AuthResponse> {
 	try {
 		const response = await axios.post<{ token: string }>('/auth/newStudent', newStudent, {
 			headers: {
