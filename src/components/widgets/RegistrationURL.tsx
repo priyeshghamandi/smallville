@@ -6,9 +6,8 @@ import {User} from '../../redux/auth/types';
 import {useAppSelector} from '../../redux/hooks';
 import {REACT_APP_URL} from '../../constants/config';
 const RegistrationURL:React.FC = ():JSX.Element => {
-    const authData = useAppSelector(AuthData);
-    const currentUser:User = authData.user;
-    const registrationURL = `http://${currentUser.org.subdomain}.${REACT_APP_URL.substring(7)}/register`
+    const currentUser:User = useAppSelector(AuthData);
+    const registrationURL = `http://${currentUser?.org?.subdomain}.${REACT_APP_URL.substring(7)}/register`
 
     const copyURL = () => {
         navigator.clipboard.writeText(registrationURL);
@@ -20,9 +19,11 @@ const RegistrationURL:React.FC = ():JSX.Element => {
         <Input
             style={{ width: 'calc(100% - 40px)' }}
             defaultValue={registrationURL}
+            readOnly
+            className='bg-gray-50'
         />
-        <Tooltip title="Copy URL">
-            <Button icon={<CopyOutlined />} onClick={copyURL} />
+        <Tooltip title="Copy URL" className='hover:text-white'>
+            <Button className='bg-blue-primary text-white hover:text-white' icon={<CopyOutlined className=' pb-10 hover:text-white' />} onClick={copyURL} />
         </Tooltip>
     </Input.Group>
     )

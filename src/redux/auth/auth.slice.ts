@@ -1,25 +1,22 @@
 import { createSlice, current, PayloadAction } from '@reduxjs/toolkit';
-import { auth, signin, signup } from '../../services/auth.service';
+import { addStudentToOrg, auth, signin, signout, signup } from '../../services/auth.service';
 import { deleteSession, setSession } from '../session/session.slice';
 import { AppDispatch, RootState } from '../store';
-import { AuthState, Branch, LoginCredentials, NewUser, Org, User } from './types';
+import { AuthState, Branch, LoginCredentials, NewStudent, NewUser, Org, User } from './types';
 
 const initialState: AuthState = {
-    user: {
-        id: '',
-        email: '',
-        name: '',
-        type: '',
-        org: {} as Org,
-        avatar: '',
-        gender: 1,
-        phone: '',
-        status: '',
-        branch: {} as Branch,
-        verified: false,
-        date: ''        
-    },
-    //token: '',
+    id: '',
+    email: '',
+    name: '',
+    type: '',
+    org: {} as Org,
+    avatar: '',
+    gender: 1,
+    phone: '',
+    status: '',
+    branch: {} as Branch,
+    verified: false,
+    date: ''        
 };
 
 export const authSlice = createSlice({
@@ -27,7 +24,7 @@ export const authSlice = createSlice({
     initialState,
     reducers: {
         authUser(state, action: PayloadAction<User>) {         
-            state.user = action.payload;
+            return action.payload;
         },
         updateAccessToken(state, action: PayloadAction<string | undefined>) {
             if (action.payload) {
@@ -84,6 +81,7 @@ export const login = (loginCred: LoginCredentials) => async (dispatch: AppDispat
 
 export const logoutAction = () => async (dispatch: AppDispatch) => {    
     try {
+        await signout();
         await dispatch(authSlice.actions.authUser({} as User));
         await dispatch(deleteSession());
     } catch (error) {
@@ -91,6 +89,24 @@ export const logoutAction = () => async (dispatch: AppDispatch) => {
     }
 };
 
+
+export const addNewStudentAction = (student: NewStudent) => async (dispatch: AppDispatch) => {
+    const response = await addStudentToOrg(student);
+    localStorage.setItem('token', response?.token || '');
+    if (response.ok) {
+        auth()
+            .then((student) => {
+                localStorage.setItem('token', response?.token || '');
+                dispatch(authSlice.actions.authUser(student));
+                dispatch(setSession());
+            })
+            .catch(console.error);
+        dispatch(authSlice.actions.updateAccessToken(response?.token));
+        dispatch(setSession());
+    } else {
+        //message.error(response.errors);
+    }
+};
 
 export const setAuthUserAction = (user: User) => async (dispatch: AppDispatch) => {
     await dispatch(authSlice.actions.authUser(user));

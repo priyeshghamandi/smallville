@@ -1,6 +1,18 @@
 export interface AuthState {
-    user?: User;
+    id: string;
+    avatar: string;
+    name: string;
+    email: string;
+    status: string;
+    type: string;
+    gender: number;
+    phone: string;
     token?: string;
+    org: Org;
+    branch: Branch;
+    userMetadata?: IUserMetadata;
+    verified: boolean;
+    date: string;
 }
 
 export interface User {
@@ -39,6 +51,15 @@ export interface NewUser {
     name: string;
     orgName: string;
     email: string;
+    password: string;
+    userMetadata?: IUserMetadata;
+}
+
+export interface NewStudent {
+    name: string;
+    orgID: string;
+    email: string;
+    phone: string;
     password: string;
     userMetadata?: IUserMetadata;
 }

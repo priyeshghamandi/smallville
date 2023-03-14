@@ -2,15 +2,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../redux/auth/auth.slice";
 import { useAppDispatch } from '../../redux/hooks';
-import { Button, Input, Space } from 'antd';
+import { Input } from 'antd';
 
 const LoginForm:React.FC = ():JSX.Element => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [passwordVisible, setPasswordVisible] = useState(false);
     const dispatch = useAppDispatch();
-    const navigate = useNavigate();
-
 
     const loginAction = async () => {
        // setIsLoading(true);
@@ -19,8 +17,7 @@ const LoginForm:React.FC = ():JSX.Element => {
                 email,
                 password,
             }),
-        );        
-        navigate('/');
+        );
         //setIsLoading(false);
     };
 
@@ -47,7 +44,7 @@ const LoginForm:React.FC = ():JSX.Element => {
             </div>
             <div className="mb-12 pt-1 pb-1 text-center">
                 <button
-                    className="mb-3 bg-[#b44593] text-white inline-block w-full rounded px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal shadow-[0_4px_9px_-4px_rgba(0,0,0,0.2)] transition duration-150 ease-in-out hover:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:outline-none focus:ring-0 active:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)]"
+                    className="mb-3 bg-blue-primary text-white inline-block w-full rounded px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal shadow-[0_4px_9px_-4px_rgba(0,0,0,0.2)] transition duration-150 ease-in-out hover:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:outline-none focus:ring-0 active:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)]"
                     type="button"
                     onClick={loginAction}
                     //style={{background: "linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)"}}

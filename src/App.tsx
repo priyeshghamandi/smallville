@@ -7,6 +7,7 @@ import Router from "./router";
 import { auth } from "./services/auth.service";
 import {authSlice} from './redux/auth/auth.slice';
 import PageLoader from "./components/page-loader/PageLoader";
+import 'antd/dist/reset.css';
 
 
 function App() {

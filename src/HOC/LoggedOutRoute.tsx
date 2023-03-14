@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { DASHBOARD } from '../constants/paths';
+import { PROFILE, DASHBOARD } from '../constants/paths';
 import { AuthData } from '../redux/auth/auth.slice';
 import { sessionData } from '../redux/session/session.slice';
 import {useAppSelector} from '../redux/hooks';
+import { UserTypes } from '../redux/auth/types';
 
 const LoggedOutRoute: React.FC<{ allowedUsers: string[]; component: React.FC }> = ({
     //children,
@@ -21,7 +22,10 @@ const LoggedOutRoute: React.FC<{ allowedUsers: string[]; component: React.FC }> 
             </div>
         </div>
     ) : session.isSessionValid === true ? (
-        <Navigate to={DASHBOARD} />
+        
+            (loggedInUser?.type === UserTypes.ADMIN || loggedInUser?.type === UserTypes.SUPER_ADMIN) 
+            ? <Navigate to={DASHBOARD} /> 
+            : <Navigate to={PROFILE} />         
     ) : null;
 };
 

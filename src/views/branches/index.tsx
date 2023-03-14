@@ -1,4 +1,5 @@
+
 const Branches:React.FC = ():JSX.Element => {
-    return <>Branches</>
+    return <></>
 }
 export default Branches;

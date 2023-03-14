@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { LoginCredentials, NewUser, User } from '../redux/auth/types';
+import { LoginCredentials, NewStudent, NewUser, User } from '../redux/auth/types';
 import { handleErrors } from './ErrorHandler';
 
 export const isTokenPresentInLocalStorage = (): boolean => {
@@ -54,4 +54,38 @@ export async function signin(loginCred: LoginCredentials): Promise<AuthResponse>
     } catch (err: any) {		
         return handleErrors(err);
     }
+}
+
+export async function signout(): Promise<{}> {
+    try {
+        await axios.post(
+            'auth/signout',
+            {},
+            {
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-Type': 'application/json',
+                },
+            },
+        );
+        return {};
+    } catch (e) {
+        console.error(e);
+        throw e;
+    }
+}
+
+export async function addStudentToOrg(newStudent: NewStudent): Promise<AuthResponse> {
+	try {
+		const response = await axios.post<{ token: string }>('/auth/newStudent', newStudent, {
+			headers: {
+				'Access-Control-Allow-Origin': '*',
+				'Content-Type': 'application/json',
+			},
+		});
+		return { ok: true, token: response.data.token };
+	} catch (err: any) {
+		return handleErrors(err);
+	}
+	
 }

@@ -14,6 +14,17 @@ import { getParameterByName } from './utils/StringUtil';
 
 axios.defaults.baseURL = BASE_API_URL;
 
+const consoleError = console.error.bind(console);
+// eslint-disable-next-line
+console.error = (errObj, ...args) => {
+  if (
+    (args.includes('findDOMNode')
+  )) {
+    return;
+  }
+  consoleError(errObj, ...args);
+};
+
 axios.interceptors.request.use(
 	function (config: any) {
 		if (!config.headers?.['x-auth-token']) {
