@@ -2,9 +2,10 @@ import { createSlice, current, PayloadAction } from '@reduxjs/toolkit';
 import { message } from '../../notifications/toast';
 import { registerStudentToOrg, auth, signin, signout, signup } from '../../services/auth.service';
 import { updateProfile } from '../../services/user.service';
+import { Branch } from '../branch/types';
 import { deleteSession, setSession } from '../session/session.slice';
 import { AppDispatch, RootState } from '../store';
-import { AuthState, Branch, LoginCredentials, NewStudent, NewUser, Org, User } from './types';
+import { AuthState, LoginCredentials, NewStudent, NewUser, Org, User } from './types';
 
 const initialState: AuthState = {
     id: '',

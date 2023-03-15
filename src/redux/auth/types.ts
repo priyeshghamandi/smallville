@@ -1,3 +1,4 @@
+import { Branch } from "../branch/types";
 import { StudentCategory } from "../student-category/types";
 
 export interface AuthState {
@@ -41,13 +42,6 @@ export interface Org {
     status: string;
     branches: Branch[];
     studentCategories: StudentCategory[];
-    date: string;
-}
-export interface Branch {
-    id: string;
-    name: string;
-    org: Org;
-    status: string;
     date: string;
 }
 

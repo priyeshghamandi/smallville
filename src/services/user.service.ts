@@ -31,6 +31,20 @@ export async function updateStudent(studentID: string,student:Partial<User>): Pr
 	}
 }
 
+export async function addStudent(studentID: string,student:Partial<User>): Promise<Response> {
+	try {
+		const response = await axios.patch<User>(`/users/${studentID}`, student, {
+			headers: {
+				'Access-Control-Allow-Origin': '*',
+				'Content-Type': 'application/json',
+			},
+		});        
+		return { ok: true, response: response.data };
+	} catch (e) {
+		return handleErrors(e);
+	}
+}
+
 export async function getAllStudents(orgID:string) {
     try {
         const response = await axios.get<User[]>(`/users/students/${orgID}`, {
@@ -42,6 +56,5 @@ export async function getAllStudents(orgID:string) {
         return { ok: true, response: response.data };
     } catch (e) {
         return handleErrors(e);
-    }
-        
+    }        
 }

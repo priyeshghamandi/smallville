@@ -1,6 +1,6 @@
 import {createSlice, current, PayloadAction} from '@reduxjs/toolkit';
 import {createStudentCategory, deleteCategory, getAllStudentCategories, updateCategory} from '../../services/student-category.service';
-import { AppDispatch, RootState } from '../store';
+import { AppDispatch } from '../store';
 import { StudentCategory, StudentCategoryState } from './types';
 
 const initialState: StudentCategoryState = {
