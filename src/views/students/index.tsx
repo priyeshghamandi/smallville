@@ -1,21 +1,24 @@
-import { Space, Table } from "antd";
+import {Space, Table, Popconfirm} from 'antd';
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { User } from "../../redux/auth/types";
 import { RootState } from "../../redux/store";
-import { getAllStudents, updateStudent } from "../../services/user.service";
+import { getAllStudents, updateStudentFromOrg } from "../../services/students.service";
 import {FormField} from '../../components/form/types';
 import FormDrawer from '../../components/form-drawer/FormDrawer';
 import { QrcodeOutlined } from "@ant-design/icons";
+import {useAppDispatch} from '../../redux/hooks';
+import {setStudentsAction, updateStudentAction, addStudentAction, deleteStudentAction} from '../../redux/student/student.slice';
 
 const Students:React.FC = ():JSX.Element => {
-    const [students, setStudents] = useState<User[]>([]);
+    const students = useSelector((state:RootState) => state.student.students);
     const [dataSource, setDataSource] = useState<any>([]);
     const [editFormFields, setEditFormFields] = useState<FormField[]>([]);
     const [activeStudentID, setActiveStudentID] = useState<string>('');
     const [isEdit, setIsEdit] = useState<boolean>(false);
     const [isAdd, setIsAdd] = useState<boolean>(false);
     const currentUser = useSelector((state: RootState) => state.auth);
+    const dispatch = useAppDispatch();
 
     const columns = [
         {
@@ -49,7 +52,18 @@ const Students:React.FC = ():JSX.Element => {
                     </a>
                 </div>                
                 <a href="#" onClick={() => {handleEdit(record)}} className="a-primary">Edit</a>
-                <a href="#" className="a-primary">Delete</a>
+                <a href="#" className="a-primary">
+                    <Popconfirm
+                        title="Delete the task"
+                        description="Are you sure to delete this category?"
+                        onConfirm={() => {deleteStudent(record.key)}}
+                        onCancel={null}
+                        okText="Yes"
+                        cancelText="No"
+                    >
+                        <a href="#">Delete</a>
+                    </Popconfirm>
+                </a>
               </Space>
             ),
           },
@@ -83,12 +97,12 @@ const Students:React.FC = ():JSX.Element => {
     ];   
     
     useEffect(() => {        
-        async function getStudents() {
-            let s = await getAllStudents(currentUser.org.id)
-            setStudents(s.response);            
-        }
-        getStudents();
+       dispatch(setStudentsAction(currentUser?.org?.id))
     },[currentUser])
+
+    useEffect(() => {
+        updateDataSource();
+    },[students])
 
     const handleEdit = (studentData) => {    
         setActiveStudentID(studentData.id);    
@@ -138,25 +152,24 @@ const Students:React.FC = ():JSX.Element => {
     }
     
     const updateStudentData = async (data) => {
-        const updatedStudent = (await updateStudent(activeStudentID, data)).response;
-        let studentsArray = students;
-        
-        const index = studentsArray.findIndex((student:User) => student.id === updatedStudent.id);
-        studentsArray[index] = updatedStudent;
-        
-        setStudents(studentsArray);
-        updateDataSource();
+        await dispatch(updateStudentAction(data, activeStudentID));
+        closeEditStudentForm();
     }
 
     const addStudent = async (data) => {
+        await dispatch(addStudentAction(data))
+        closeAddStudentForm();
+    }
 
+    const deleteStudent = async (studentID: string) => {
+        await dispatch(deleteStudentAction(studentID));        
     }
 
     const updateDataSource = () => {
-        if(students.length) {
-            let ds = students.map((student:User, index: number) => {
+        if(students?.length) {
+            let ds = students.map((student:User) => {
                 return {
-                   key: index,
+                   key: student.id,
                    id: student.id,
                    name: student.name,
                    email: student.email,
