@@ -1,25 +1,14 @@
 import { useState } from "react";
-import { skipToken } from '@reduxjs/toolkit/query';
 import { Form, Input, Select } from 'antd';
 import {useAppDispatch} from '../../redux/hooks';
 import {addNewStudentAction} from '../../redux/auth/auth.slice';
-import { FormField } from "../../components/form/types";
 import './styles.css'
 import { Org } from "../../redux/auth/types";
 
 const RegistrationForm:React.FC<{org: Org}> = ({org}):JSX.Element => {
     const [form] = Form.useForm();
-    
-    //const [form, setForm] = useState<any>(skipToken);
     const [passwordVisible, setPasswordVisible] = useState(false);
     const dispatch = useAppDispatch();
-
-    // const setField = (field: any, value: any) => {
-    //     setForm({
-    //         ...form,
-    //         [field]: value,
-    //     });
-    // };
 
     const handleKeyPress = async (e) => {
         if (e.key === 'Enter') {
@@ -28,7 +17,6 @@ const RegistrationForm:React.FC<{org: Org}> = ({org}):JSX.Element => {
     };
 
     const submitForm = async (values) => {
-        console.log({values});
         let orgID = org.id;
         await dispatch(addNewStudentAction({...values, orgID}))
         return;
@@ -36,7 +24,7 @@ const RegistrationForm:React.FC<{org: Org}> = ({org}):JSX.Element => {
 
 
     return (
-        <Form onFinish={submitForm} form={form}>            
+        <Form onFinish={submitForm} form={form} onKeyDown={handleKeyPress}>            
             <div className="relative mb-4"><Form.Item
                     name="name"                        
                     rules={[{ required: true, message: 'Please enter your full name' }]}
